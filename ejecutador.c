@@ -26,6 +26,7 @@ void handleError(int resultCode) {
     }
 }
 
+// creacion del hijo que ejecutara el comando
 void createChild(char* path, char** items, int background) {
 
     int estado, resultCode;
@@ -34,12 +35,9 @@ void createChild(char* path, char** items, int background) {
     childProcess = fork();
 
     if (childProcess == 0){
-        
         resultCode = execv(path, items);                
         handleError(resultCode);
-
     } else {    
-
         if (background == 0) {
             wait(&estado);
         }
@@ -47,12 +45,14 @@ void createChild(char* path, char** items, int background) {
 }
 
 
-// Definición de struct
+// Definición de struct para el mapeo de los comandos de la consola
 typedef struct {
     char *key;
     int val;
 } shellDictionary;
 
+//creacion de la tabla que contiene los comandos de la consola
+//tomando la estructura anterior 
 static shellDictionary table[] = {
     {"mypwd", mypwd}, 
     {"mycp", mycp},
@@ -64,12 +64,12 @@ static shellDictionary table[] = {
     {"myexit", myexit}
 };
 
+// metodo para obtener el comando que debera ejecutar el hijo
 int getComandosShell(char *key) {
 
     long dictionarySize = (sizeof(table)/ sizeof(shellDictionary));
-    
+  
     for (int i = 0; i < dictionarySize; i++) {  
-
         if (strcmp(table[i].key, key) == 0)
             return table[i].val;            
     }
@@ -77,6 +77,8 @@ int getComandosShell(char *key) {
 }
 
 
+// metodo encargado ejecutar los comandos adecuados que
+//fueron solicitados en la consola 
 void atentionCallShell(char *expresion, char** items , int background) {
 
     char* program;

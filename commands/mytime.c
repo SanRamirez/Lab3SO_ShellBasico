@@ -4,6 +4,9 @@
 #include <sys/syscall.h>    //syscall  
 #include <time.h>
 
+//https://www.tutorialspoint.com/c_standard_library/c_function_localtime.htm
+//https://www.tutorialspoint.com/c_standard_library/c_function_asctime.htm
+
 int main(int argc, char *argv[]) {
 
     time_t rawTime;

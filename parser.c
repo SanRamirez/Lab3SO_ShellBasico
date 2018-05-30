@@ -1,31 +1,31 @@
-/*
-    parser.c
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "parser.h"
 
-int separaItems (char * expresion,   // Palabras a separar
-                 char *** items,     // Resultado
+int separaItems (char * expresion,   // Palabras a separar (comandos)
+                 char *** items,     // Resultado cambia el valor del numero de items que contiene el comando
                  int * background)   // 1 si hay un & al final
 {
   int i, j, num, ult;
   char ** pp;
-                    // En principio:
+ 
+ //inicialización de parametros                    
   *items = NULL;    //   cero parametros
   *background = 0;  //   ejecucion en primer plano
 
+//organizar la expresion
   for (i=0; expresion[i]!='\0'; i++)  // Cambiar saltos de
     if (expresion[i]=='\n' ||         // linea y tabuladores
         expresion[i]=='\t')           // por espacios
       expresion[i] = ' ';
 
+//organizar la expresion
   while (*expresion==' ')   // Quitar espacios del principio
     expresion ++;
 
+// inicio validaciones y conteo de items
   if (*expresion=='\0')     // Si cadena vacia ...
     return 0;               // ... cero parametros
 
